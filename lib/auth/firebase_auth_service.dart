@@ -23,14 +23,10 @@ class FirebaseAuthService extends GetxService {
   }
 }
 
-
-  /// ✅ Returns the current user
   User? get currentUser => _auth.currentUser;
 
-  /// ✅ Is user logged in
   bool get isLoggedIn => currentUser != null;
 
-  /// ✅ Sign in with email and password
   Future<UserCredential?> signIn({
     required String email,
     required String password,
@@ -46,50 +42,12 @@ class FirebaseAuthService extends GetxService {
     }
   }
 
-  /// ✅ Register with email and password
-  Future<UserCredential?> register({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      final credential = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return credential;
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e.message);
-    }
-  }
 
-  /// ✅ Send email verification
-  Future<void> sendEmailVerification() async {
-    if (currentUser != null && !currentUser!.emailVerified) {
-      await currentUser!.sendEmailVerification();
-    }
-  }
-
-  /// ✅ Sign out
   Future<void> signOut() async {
     await _auth.signOut();
   }
 
-  /// ✅ Delete account
-  Future<void> deleteAccount() async {
-    if (currentUser != null) {
-      await currentUser!.delete();
-    }
-  }
+ 
 
-  /// ✅ Change password
-  Future<void> changePassword(String newPassword) async {
-    if (currentUser != null) {
-      await currentUser!.updatePassword(newPassword);
-    }
-  }
 
-  /// ✅ Reset password by email
-  Future<void> sendPasswordResetEmail(String email) async {
-    await _auth.sendPasswordResetEmail(email: email);
-  }
 }
